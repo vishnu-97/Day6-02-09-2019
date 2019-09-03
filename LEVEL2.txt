@@ -1,0 +1,131 @@
+Q15:
+SQL> SELECT E1.ENAME AS NAME1, E2.ENAME AS E2
+  2  FROM EMP E1,EMP E2
+  3  WHERE EXTRACT(MONTH FROM E1.HIREDATE)=EXTRACT(MONTH FROM E2.HIREDATE)
+  4  AND E1.DEPTNO=E2.DEPTNO
+  5  AND E1.EMPNO<>E2.EMPNO;
+
+NAME1      E2
+---------- ----------
+ANDY       SMITH
+ATUL       SMITH
+FORD       SMITH
+WARD       ALLEN
+ALLEN      WARD
+SCOTT      JONES
+TURNER     MARTIN
+JONES      SCOTT
+MARTIN     TURNER
+ANDY       FORD
+ATUL       FORD
+
+NAME1      E2
+---------- ----------
+SMITH      FORD
+ANDY       ATUL
+FORD       ATUL
+SMITH      ATUL
+ATUL       ANDY
+FORD       ANDY
+SMITH      ANDY
+
+18 rows selected.
+
+SQL> select*
+  2  FROM M K
+  3  WHERE NOT EXISTS(
+  4  SELECT NULL
+  5  FROM M Z
+  6  WHERE Z.NAME1=K.E2
+  7  AND K.NAME1=Z.E2
+  8  AND Z.RN>K.RN);
+
+        RN NAME1      E2
+---------- ---------- ----------
+        18 ANDY       SMITH
+        17 ANDY       FORD
+        16 ANDY       ATUL
+         8 SCOTT      JONES
+        14 ATUL       FORD
+        12 FORD       SMITH
+         9 TURNER     MARTIN
+        15 ATUL       SMITH
+         5 WARD       ALLEN
+
+9 rows selected.
+
+select*
+FROM (SELECT E1.ENAME AS NAME1, E2.ENAME AS E2 
+    FROM EMP E1,EMP E2
+    WHERE EXTRACT(MONTH FROM E1.HIREDATE)=EXTRACT(MONTH FROM E2.HIREDATE)
+    AND E1.DEPTNO=E2.DEPTNO
+    AND E1.EMPNO<>E2.EMPNO) K
+ WHERE NOT EXISTS(
+    SELECT NULL
+    FROM (SELECT E1.ENAME AS NAME1, E2.ENAME AS E2 
+    FROM EMP E1,EMP E2
+    WHERE EXTRACT(MONTH FROM E1.HIREDATE)=EXTRACT(MONTH FROM E2.HIREDATE)
+    AND E1.DEPTNO=E2.DEPTNO
+    AND E1.EMPNO<>E2.EMPNO) Z
+    WHERE Z.NAME1=K.E2
+    AND K.NAME1=Z.E2
+    AND Z.RN>K.RN)
+/
+
+Q29:
+SQL> SELECT NEXT_DAY(TRUNC(SYSDATE,'MON')-1,'FRI')
+  2  FROM DUAL;
+
+NEXT_DAY(
+---------
+02-AUG-19
+
+
+
+Q30:
+SQL> SELECT NEXT_DAY(TRUNC(ADD_MONTHS (SYSDATE, 1),'MON')-1,'FRI')-7
+  2  FROM DUAL;
+
+NEXT_DAY(
+---------
+30-AUG-19
+
+
+Q31:
+SQL> SELECT ENAME,TO_CHAR(HIREDATE,'FMDAY')
+  2  FROM EMP
+  3  ORDER BY mod(to_char(hiredate, 'D')+5,7);
+
+ENAME      TO_CHAR(HIREDATE,'FMDAY')
+---------- ------------------------------------
+MARTIN     MONDAY
+ATUL       MONDAY
+KING       TUESDAY
+CLARK      TUESDAY
+TURNER     TUESDAY
+SMITH      WEDNESDAY
+FORD       THURSDAY
+JONES      THURSDAY
+JAMES      THURSDAY
+BLAKE      FRIDAY
+ALLEN      FRIDAY
+
+ENAME      TO_CHAR(HIREDATE,'FMDAY')
+---------- ------------------------------------
+MILLER     SATURDAY
+ANDY       SATURDAY
+ADAMS      SATURDAY
+SCOTT      SUNDAY
+WARD       SUNDAY
+ANDY       SUNDAY
+SWARA
+
+18 rows selected.
+
+
+Q:
+SQL> select (select sum(num) from numb where num>0) as positive, (select sum(num) from numb where num<0) as negative from numb where rownum=1;
+
+  POSITIVE   NEGATIVE                                                           
+---------- ----------                                                           
+        10        -10          

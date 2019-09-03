@@ -1,0 +1,36 @@
+Q1:
+SQL> select * from emp t1 where not exists (select null from emp T2 where t2.mgr = t1.empno );
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7742 ANDY                            20-DEC-09       1982                    20
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7741 ATUL                            20-DEC-82      19820                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+      7743 ANDY                            20-JUN-09       1982                    20
+      7740 SWARA                                           5204                    20
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+
+12 rows selected.
+
+
+Q2:
+SQL> SELECT EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,GRADE,COMM,DEPTNO
+  2  FROM EMP
+  3  JOIN SALGRADE ON EMP.SAL BETWEEN SALGRADE.LOSAL AND SALGRADE.HISAL
+  4  WHERE EMP.JOB='SALESMAN';
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL      GRADE       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600          3        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250          2        500         30
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250          2       1400         30
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          3          0         30
+
+
+Q3:

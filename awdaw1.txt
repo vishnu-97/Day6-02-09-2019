@@ -1,0 +1,15 @@
+jhvhh
+ghghg
+jhvvvjh
+vhg
+jhvj
+any obj markde as transient is not saved whn writeobjectouput
+
+gzipoutputstream
+gzipinputstream
+
+
+printstream---print contents as it is to the file
+can combine multiple files
+
+thread is a  segment or part of ap 
